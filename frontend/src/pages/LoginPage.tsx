@@ -3,6 +3,7 @@ import { googleLoginUrl } from '@/api/authApi'
 import { useAuthStore } from '@/stores/authStore'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { GoogleIcon } from '@/components/icons/GoogleIcon'
 
 export function LoginPage() {
   const status = useAuthStore((state) => state.status)
@@ -20,6 +21,7 @@ export function LoginPage() {
         </CardHeader>
         <CardContent>
           <Button className="w-full" onClick={() => (window.location.href = googleLoginUrl)}>
+            <GoogleIcon className="size-4" />
             Sign in with Google
           </Button>
         </CardContent>
