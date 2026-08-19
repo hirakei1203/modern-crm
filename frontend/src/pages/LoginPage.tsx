@@ -1,0 +1,29 @@
+import { Navigate } from 'react-router-dom'
+import { googleLoginUrl } from '@/api/authApi'
+import { useAuthStore } from '@/stores/authStore'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+
+export function LoginPage() {
+  const status = useAuthStore((state) => state.status)
+
+  if (status === 'authenticated') {
+    return <Navigate to="/" replace />
+  }
+
+  return (
+    <div className="flex min-h-svh items-center justify-center bg-muted p-4">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle className="text-xl">CRM</CardTitle>
+          <CardDescription>Googleアカウントでログインしてください</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button className="w-full" onClick={() => (window.location.href = googleLoginUrl)}>
+            Googleでログイン
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
