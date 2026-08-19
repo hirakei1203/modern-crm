@@ -7,8 +7,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { cn } from '@/lib/utils'
 
 const navItems = [
-  { to: '/', label: 'ダッシュボード', icon: LayoutDashboard, end: true },
-  { to: '/customers', label: '顧客一覧', icon: Users, end: false },
+  { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
+  { to: '/customers', label: 'Customers', icon: Users, end: false },
 ]
 
 export function AppSidebar() {
@@ -62,7 +62,7 @@ export function AppSidebar() {
           <DropdownMenuContent align="start" className="w-56">
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
-              ログアウト
+              Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

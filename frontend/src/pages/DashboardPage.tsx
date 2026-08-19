@@ -5,8 +5,8 @@ export function DashboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold tracking-tight">ダッシュボード</h1>
-      <p className="mt-2 text-muted-foreground">ようこそ、{user?.name}さん。</p>
+      <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+      <p className="mt-2 text-muted-foreground">Welcome back, {user?.name}.</p>
     </div>
   )
 }

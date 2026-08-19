@@ -5,7 +5,7 @@ export function ProtectedRoute() {
   const status = useAuthStore((state) => state.status)
 
   if (status === 'idle' || status === 'loading') {
-    return <div className="flex min-h-svh items-center justify-center text-muted-foreground">読み込み中...</div>
+    return <div className="flex min-h-svh items-center justify-center text-muted-foreground">Loading...</div>
   }
 
   if (status === 'guest') {

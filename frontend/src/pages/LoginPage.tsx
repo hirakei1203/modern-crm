@@ -16,11 +16,11 @@ export function LoginPage() {
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-xl">CRM</CardTitle>
-          <CardDescription>Googleアカウントでログインしてください</CardDescription>
+          <CardDescription>Sign in with your Google account</CardDescription>
         </CardHeader>
         <CardContent>
           <Button className="w-full" onClick={() => (window.location.href = googleLoginUrl)}>
-            Googleでログイン
+            Sign in with Google
           </Button>
         </CardContent>
       </Card>
