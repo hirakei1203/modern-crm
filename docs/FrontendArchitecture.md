@@ -26,7 +26,7 @@ src/
 │   ├── TagBadge.tsx
 │   └── TaskChecklist.tsx
 ├── hooks/                # Reusable logic (custom hooks — analogous to Vue composables)
-│   └── useCustomers.ts
+│   └── useFetchCustomers.ts
 ├── stores/               # Global state via Zustand
 │   ├── customerStore.ts
 │   └── authStore.ts
