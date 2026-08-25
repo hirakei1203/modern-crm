@@ -1,11 +1,15 @@
 import { Link, useParams } from 'react-router-dom'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { TaskChecklist } from '@/components/TaskChecklist'
 import { useFetchCustomer } from '@/hooks/useFetchCustomer'
+import { useFetchTasks } from '@/hooks/useFetchTasks'
 
 export function CustomerDetailPage() {
   const { id } = useParams<{ id: string }>()
-  const { customer, status } = useFetchCustomer(Number(id))
+  const customerId = Number(id)
+  const { customer, status } = useFetchCustomer(customerId)
+  const { tasks, refetch: refetchTasks } = useFetchTasks(customerId)
 
   if (status === 'loading' || status === 'idle') {
     return null
@@ -24,6 +28,15 @@ export function CustomerDetailPage() {
       <div className="mt-4 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]">
         <div className="min-w-0">
           <h1 className="text-2xl font-semibold tracking-tight">{customer.name}</h1>
+
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle>Tasks</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <TaskChecklist customerId={customerId} tasks={tasks} onChange={refetchTasks} />
+            </CardContent>
+          </Card>
 
           <Card className="mt-6">
             <CardHeader>
