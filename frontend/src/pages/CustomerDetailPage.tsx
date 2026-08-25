@@ -1,18 +1,23 @@
 import { Link, useParams } from 'react-router-dom'
+import { customerApi } from '@/api/customerApi'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { AddTagDialog } from '@/components/AddTagDialog'
 import { ContactHistoryTimeline } from '@/components/ContactHistoryTimeline'
+import { TagBadge } from '@/components/TagBadge'
 import { TaskChecklist } from '@/components/TaskChecklist'
 import { useFetchContactHistories } from '@/hooks/useFetchContactHistories'
 import { useFetchCustomer } from '@/hooks/useFetchCustomer'
+import { useFetchTags } from '@/hooks/useFetchTags'
 import { useFetchTasks } from '@/hooks/useFetchTasks'
 
 export function CustomerDetailPage() {
   const { id } = useParams<{ id: string }>()
   const customerId = Number(id)
-  const { customer, status } = useFetchCustomer(customerId)
+  const { customer, status, refetch: refetchCustomer } = useFetchCustomer(customerId)
   const { tasks, refetch: refetchTasks } = useFetchTasks(customerId)
   const { contactHistories, refetch: refetchContactHistories } = useFetchContactHistories(customerId)
+  const { tags: allTags, refetch: refetchTags } = useFetchTags()
 
   if (status === 'loading' || status === 'idle') {
     return null
@@ -68,7 +73,7 @@ export function CustomerDetailPage() {
           </Card>
         </div>
 
-        <div>
+        <div className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Properties</CardTitle>
@@ -96,6 +101,35 @@ export function CustomerDetailPage() {
                   <p className="mt-1">—</p>
                 )}
               </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Tags</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {customer.tags && customer.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {customer.tags.map((tag) => (
+                    <TagBadge
+                      key={tag.id}
+                      tag={tag}
+                      onRemove={() => {
+                        const remaining = customer.tags!.filter((t) => t.id !== tag.id).map((t) => t.id)
+                        customerApi.updateTags(customerId, remaining).then(refetchCustomer)
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+              <AddTagDialog
+                customerId={customerId}
+                assignedTags={customer.tags ?? []}
+                allTags={allTags}
+                onTagCreated={refetchTags}
+                onAssigned={refetchCustomer}
+              />
             </CardContent>
           </Card>
         </div>

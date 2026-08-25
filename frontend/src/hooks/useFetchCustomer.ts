@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { customerApi } from '@/api/customerApi'
 import type { Customer } from '@/types/customer'
 
@@ -9,6 +9,13 @@ type CustomerState = {
 
 export function useFetchCustomer(id: number) {
   const [state, setState] = useState<CustomerState>({ customer: null, status: 'idle' })
+
+  const refetch = useCallback(() => {
+    return customerApi
+      .get(id)
+      .then((customer) => setState({ customer, status: 'success' }))
+      .catch(() => setState({ customer: null, status: 'error' }))
+  }, [id])
 
   useEffect(() => {
     let cancelled = false
@@ -28,5 +35,5 @@ export function useFetchCustomer(id: number) {
     }
   }, [id])
 
-  return state
+  return { ...state, refetch }
 }

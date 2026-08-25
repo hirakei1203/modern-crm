@@ -10,21 +10,19 @@ class CustomerRepository implements CustomerRepositoryInterface
 {
     public function find(int $id): ?Customer
     {
-        return Customer::with(['assignedUser'])->find($id);
+        return Customer::with(['assignedUser', 'tags'])->find($id);
     }
 
     public function paginate(array $filters): LengthAwarePaginator
     {
         return Customer::query()
-            ->when($filters['assigned_to'] ?? null, fn ($q, $userId) =>
-                $q->where('assigned_to', $userId)
+            ->when($filters['assigned_to'] ?? null, fn ($q, $userId) => $q->where('assigned_to', $userId)
             )
-            ->when($filters['search'] ?? null, fn ($q, $search) =>
-                $q->where(fn ($q) => $q
-                    ->where('name', 'like', "%{$search}%")
-                    ->orWhere('company', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%")
-                )
+            ->when($filters['search'] ?? null, fn ($q, $search) => $q->where(fn ($q) => $q
+                ->where('name', 'like', "%{$search}%")
+                ->orWhere('company', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+            )
             )
             ->with(['assignedUser'])
             ->latest('updated_at')
@@ -46,5 +44,10 @@ class CustomerRepository implements CustomerRepositoryInterface
     public function delete(Customer $customer): void
     {
         $customer->delete();
+    }
+
+    public function syncTags(Customer $customer, array $tagIds): void
+    {
+        $customer->tags()->sync($tagIds);
     }
 }

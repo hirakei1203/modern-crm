@@ -16,4 +16,6 @@ interface CustomerRepositoryInterface
     public function update(Customer $customer, array $data): Customer;
 
     public function delete(Customer $customer): void;
+
+    public function syncTags(Customer $customer, array $tagIds): void;
 }

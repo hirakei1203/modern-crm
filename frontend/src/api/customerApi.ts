@@ -21,4 +21,9 @@ export const customerApi = {
     await ensureCsrfCookie()
     await apiClient.delete(`/customers/${id}`)
   },
+
+  updateTags: async (id: number, tagIds: number[]) => {
+    await ensureCsrfCookie()
+    return apiClient.put<{ data: Customer }>(`/customers/${id}`, { tag_ids: tagIds }).then((res) => res.data.data)
+  },
 }

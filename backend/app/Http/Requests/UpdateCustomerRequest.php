@@ -21,6 +21,8 @@ class UpdateCustomerRequest extends FormRequest
             'phone' => ['nullable', 'string', 'max:255'],
             'assigned_to' => ['nullable', 'integer', 'exists:users,id'],
             'memo' => ['nullable', 'string'],
+            'tag_ids' => ['sometimes', 'array'],
+            'tag_ids.*' => ['integer', 'exists:tags,id'],
         ];
     }
 }
