@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\ContactHistoryRepository;
+use App\Repositories\Contracts\ContactHistoryRepositoryInterface;
 use App\Repositories\Contracts\CustomerRepositoryInterface;
 use App\Repositories\Contracts\TaskRepositoryInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
@@ -17,5 +19,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(CustomerRepositoryInterface::class, CustomerRepository::class);
         $this->app->bind(TaskRepositoryInterface::class, TaskRepository::class);
+        $this->app->bind(ContactHistoryRepositoryInterface::class, ContactHistoryRepository::class);
     }
 }

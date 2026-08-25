@@ -1,7 +1,9 @@
 import { Link, useParams } from 'react-router-dom'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { ContactHistoryTimeline } from '@/components/ContactHistoryTimeline'
 import { TaskChecklist } from '@/components/TaskChecklist'
+import { useFetchContactHistories } from '@/hooks/useFetchContactHistories'
 import { useFetchCustomer } from '@/hooks/useFetchCustomer'
 import { useFetchTasks } from '@/hooks/useFetchTasks'
 
@@ -10,6 +12,7 @@ export function CustomerDetailPage() {
   const customerId = Number(id)
   const { customer, status } = useFetchCustomer(customerId)
   const { tasks, refetch: refetchTasks } = useFetchTasks(customerId)
+  const { contactHistories, refetch: refetchContactHistories } = useFetchContactHistories(customerId)
 
   if (status === 'loading' || status === 'idle') {
     return null
@@ -28,6 +31,19 @@ export function CustomerDetailPage() {
       <div className="mt-4 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]">
         <div className="min-w-0">
           <h1 className="text-2xl font-semibold tracking-tight">{customer.name}</h1>
+
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle>Contact history</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ContactHistoryTimeline
+                customerId={customerId}
+                contactHistories={contactHistories}
+                onChange={refetchContactHistories}
+              />
+            </CardContent>
+          </Card>
 
           <Card className="mt-6">
             <CardHeader>
