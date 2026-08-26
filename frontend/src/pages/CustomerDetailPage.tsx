@@ -4,10 +4,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AddTagDialog } from '@/components/AddTagDialog'
 import { ContactHistoryTimeline } from '@/components/ContactHistoryTimeline'
+import { CustomerLinkList } from '@/components/CustomerLinkList'
 import { TagBadge } from '@/components/TagBadge'
 import { TaskChecklist } from '@/components/TaskChecklist'
 import { useFetchContactHistories } from '@/hooks/useFetchContactHistories'
 import { useFetchCustomer } from '@/hooks/useFetchCustomer'
+import { useFetchCustomerLinks } from '@/hooks/useFetchCustomerLinks'
 import { useFetchTags } from '@/hooks/useFetchTags'
 import { useFetchTasks } from '@/hooks/useFetchTasks'
 
@@ -17,6 +19,7 @@ export function CustomerDetailPage() {
   const { customer, status, refetch: refetchCustomer } = useFetchCustomer(customerId)
   const { tasks, refetch: refetchTasks } = useFetchTasks(customerId)
   const { contactHistories, refetch: refetchContactHistories } = useFetchContactHistories(customerId)
+  const { customerLinks, refetch: refetchCustomerLinks } = useFetchCustomerLinks(customerId)
   const { tags: allTags, refetch: refetchTags } = useFetchTags()
 
   if (status === 'loading' || status === 'idle') {
@@ -129,6 +132,19 @@ export function CustomerDetailPage() {
                 allTags={allTags}
                 onTagCreated={refetchTags}
                 onAssigned={refetchCustomer}
+              />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>External links</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CustomerLinkList
+                customerId={customerId}
+                customerLinks={customerLinks}
+                onChange={refetchCustomerLinks}
               />
             </CardContent>
           </Card>

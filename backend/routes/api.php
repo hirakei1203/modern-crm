@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ContactHistoryController;
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\CustomerLinkController;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Auth\AuthController;
@@ -29,4 +30,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('contact-histories/{id}', [ContactHistoryController::class, 'destroy']);
 
     Route::apiResource('tags', TagController::class)->parameters(['tags' => 'id'])->except(['show']);
+
+    Route::get('customers/{customer}/links', [CustomerLinkController::class, 'index']);
+    Route::post('customers/{customer}/links', [CustomerLinkController::class, 'store']);
+    Route::put('links/{id}', [CustomerLinkController::class, 'update']);
+    Route::delete('links/{id}', [CustomerLinkController::class, 'destroy']);
 });

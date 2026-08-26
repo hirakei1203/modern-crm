@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Repositories\ContactHistoryRepository;
 use App\Repositories\Contracts\ContactHistoryRepositoryInterface;
+use App\Repositories\Contracts\CustomerLinkRepositoryInterface;
 use App\Repositories\Contracts\CustomerRepositoryInterface;
 use App\Repositories\Contracts\TagRepositoryInterface;
 use App\Repositories\Contracts\TaskRepositoryInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Repositories\CustomerLinkRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\TagRepository;
 use App\Repositories\TaskRepository;
@@ -25,6 +27,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(TaskRepositoryInterface::class, TaskRepository::class);
         $this->app->bind(ContactHistoryRepositoryInterface::class, ContactHistoryRepository::class);
         $this->app->bind(TagRepositoryInterface::class, TagRepository::class);
+        $this->app->bind(CustomerLinkRepositoryInterface::class, CustomerLinkRepository::class);
         $this->app->bind(TagAssignmentServiceInterface::class, TagAssignmentService::class);
     }
 }
