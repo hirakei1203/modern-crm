@@ -1,14 +1,18 @@
 import { useState } from 'react'
+import { CreateCustomerDialog } from '@/components/CreateCustomerDialog'
 import { CustomerTable } from '@/components/CustomerTable'
 import { useFetchCustomers } from '@/hooks/useFetchCustomers'
 
 export function CustomerListPage() {
   const [search, setSearch] = useState('')
-  const { customers, status } = useFetchCustomers({ search: search || undefined })
+  const { customers, status, refetch } = useFetchCustomers({ search: search || undefined })
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold tracking-tight">Customers</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold tracking-tight">Customers</h1>
+        <CreateCustomerDialog onCreated={refetch} />
+      </div>
 
       <input
         type="text"
@@ -19,7 +23,9 @@ export function CustomerListPage() {
       />
 
       {status === 'error' && <p className="mt-8 text-sm text-destructive">Failed to load customers.</p>}
-      {status !== 'error' && <div className="mt-4">{status === 'loading' ? null : <CustomerTable customers={customers} />}</div>}
+      {status !== 'error' && (
+        <div className="mt-4">{status === 'loading' ? null : <CustomerTable customers={customers} onDeleted={refetch} />}</div>
+      )}
     </div>
   )
 }

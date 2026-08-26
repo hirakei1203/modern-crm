@@ -1,3 +1,5 @@
+import type { Tag } from './tag'
+
 export type CustomerAssignee = {
   id: number
   name: string
@@ -13,6 +15,7 @@ export type Customer = {
   memo: string | null
   assigned_to: number | null
   assignee: CustomerAssignee | null
+  tags?: Tag[]
   created_at: string
   updated_at: string
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { customerApi } from '@/api/customerApi'
 import type { Customer, CustomerFilters } from '@/types/customer'
 
@@ -10,23 +10,23 @@ type CustomersState = {
 export function useFetchCustomers(filters: CustomerFilters) {
   const [state, setState] = useState<CustomersState>({ customers: [], status: 'idle' })
 
-  useEffect(() => {
-    let cancelled = false
+  const refetch = useCallback(() => {
     setState((prev) => ({ ...prev, status: 'loading' }))
 
-    customerApi
+    return customerApi
       .list(filters)
       .then((response) => {
-        if (!cancelled) setState({ customers: response.data, status: 'success' })
+        setState({ customers: response.data, status: 'success' })
       })
       .catch(() => {
-        if (!cancelled) setState({ customers: [], status: 'error' })
+        setState({ customers: [], status: 'error' })
       })
-
-    return () => {
-      cancelled = true
-    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters.search, filters.assigned_to])
 
-  return state
+  useEffect(() => {
+    refetch()
+  }, [refetch])
+
+  return { ...state, refetch }
 }

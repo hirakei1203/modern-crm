@@ -4,6 +4,7 @@ import { AppLayout } from '@/components/layout/AppLayout'
 import { LoginPage } from '@/pages/LoginPage'
 import { DashboardPage } from '@/pages/DashboardPage'
 import { CustomerListPage } from '@/pages/CustomerListPage'
+import { CustomerDetailPage } from '@/pages/CustomerDetailPage'
 
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
@@ -15,6 +16,7 @@ export const router = createBrowserRouter([
         children: [
           { path: '/', element: <DashboardPage /> },
           { path: '/customers', element: <CustomerListPage /> },
+          { path: '/customers/:id', element: <CustomerDetailPage /> },
         ],
       },
     ],

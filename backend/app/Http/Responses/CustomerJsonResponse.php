@@ -25,6 +25,7 @@ class CustomerJsonResponse extends JsonResource
                 'name' => $this->assignedUser->name,
                 'avatar_url' => $this->assignedUser->avatar_url,
             ]),
+            'tags' => TagJsonResponse::collection($this->whenLoaded('tags')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
