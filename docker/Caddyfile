@@ -1,0 +1,13 @@
+{$DOMAIN} {
+	@backend path /api/* /sanctum/* /auth/*
+	handle @backend {
+		root * /srv/backend/public
+		php_fastcgi app:9000
+	}
+
+	handle {
+		root * /srv/frontend
+		try_files {path} /index.html
+		file_server
+	}
+}

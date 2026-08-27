@@ -1,0 +1,64 @@
+services:
+  app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    container_name: crm_app
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    networks:
+      - crm_network
+
+  frontend-build:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    volumes:
+      - frontend_dist:/out
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: crm_caddy
+    environment:
+      DOMAIN: ${DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./backend/public:/srv/backend/public:ro
+      - frontend_dist:/srv/frontend:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app:
+        condition: service_started
+      frontend-build:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    networks:
+      - crm_network
+
+  mysql:
+    image: mysql:8.0
+    container_name: crm_mysql
+    env_file:
+      - ./backend/.env
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+    networks:
+      - crm_network
+
+networks:
+  crm_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  frontend_dist:
+  caddy_data:
+  caddy_config:

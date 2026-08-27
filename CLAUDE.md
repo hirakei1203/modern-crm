@@ -8,6 +8,7 @@
 - [docs/product-spec.md](docs/product-spec.md) — プロダクト仕様・データモデル・画面設計
 - [docs/BackendArchitecture.md](docs/BackendArchitecture.md) — バックエンドのレイヤードアーキテクチャ方針
 - [docs/FrontendArchitecture.md](docs/FrontendArchitecture.md) — フロントエンドのアーキテクチャ方針
+- [docs/Deployment.md](docs/Deployment.md) — AWS EC2 + Docker Composeによるデプロイ手順
 
 実装判断が設計ドキュメントと異なる場合は、該当のdocsファイルもあわせて更新すること。
 
