@@ -29,7 +29,7 @@ services:
       - "443:443"
     volumes:
       - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./backend/public:/srv/backend/public:ro
+      - ./backend/public:/var/www/html/public:ro
       - frontend_dist:/srv/frontend:ro
       - caddy_data:/data
       - caddy_config:/config

@@ -1,7 +1,7 @@
 {$DOMAIN} {
 	@backend path /api/* /sanctum/* /auth/*
 	handle @backend {
-		root * /srv/backend/public
+		root * /var/www/html/public
 		php_fastcgi app:9000
 	}
 
